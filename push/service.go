@@ -55,6 +55,17 @@ func NewClient(cert tls.Certificate) (*http.Client, error) {
 	return &http.Client{Transport: transport}, nil
 }
 
+// NewClient sets up an HTTP/2 client without certificate.
+func NewClientWithoutCert() (*http.Client, error) {
+	transport := &http.Transport{TLSClientConfig: nil}
+
+	if err := http2.ConfigureTransport(transport); err != nil {
+		return nil, err
+	}
+
+	return &http.Client{Transport: transport}, nil
+}
+
 // Push sends a notification and waits for a response.
 func (s *Service) Push(deviceToken string, headers *Headers, payload []byte) (string, error) {
 	// check payload length before even hitting Apple.
@@ -73,9 +84,7 @@ func (s *Service) Push(deviceToken string, headers *Headers, payload []byte) (st
 	}
 	req.Header.Set("Content-Type", "application/json")
 	headers.set(req.Header)
-
 	resp, err := s.Client.Do(req)
-
 	if err != nil {
 		if e, ok := err.(*url.Error); ok {
 			if e, ok := e.Err.(http2.GoAwayError); ok {

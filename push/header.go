@@ -28,6 +28,9 @@ type Headers struct {
 
 	// Type of push
 	Type Type
+
+	//authentication
+	Authentication string
 }
 
 // Type of push
@@ -41,6 +44,7 @@ const (
 	Complication Type = "complication"
 	FileProvider Type = "fileprovider"
 	MDM          Type = "mdm"
+	Location     Type = "location"
 )
 
 // set headers for an HTTP request
@@ -72,5 +76,8 @@ func (h *Headers) set(reqHeader http.Header) {
 
 	if h.Type != "" {
 		reqHeader.Set("apns-push-type", string(h.Type))
+	}
+	if h.Authentication != "" {
+		reqHeader.Set("authentication", h.Authentication)
 	}
 }
