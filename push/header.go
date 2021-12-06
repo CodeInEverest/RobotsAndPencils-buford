@@ -29,8 +29,8 @@ type Headers struct {
 	// Type of push
 	Type Type
 
-	//authentication
-	Authentication string
+	//Authorization
+	Authorization string
 }
 
 // Type of push
@@ -77,7 +77,7 @@ func (h *Headers) set(reqHeader http.Header) {
 	if h.Type != "" {
 		reqHeader.Set("apns-push-type", string(h.Type))
 	}
-	if h.Authentication != "" {
-		reqHeader.Set("authentication", h.Authentication)
+	if h.Authorization != "" {
+		reqHeader.Set("authorization", h.Authorization)
 	}
 }
