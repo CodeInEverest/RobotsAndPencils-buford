@@ -64,7 +64,7 @@ func worker(q *Queue) {
 	for n := range q.notifications {
 		id, err := q.service.Push(n.DeviceToken, n.Headers, n.Payload)
 		if err != nil {
-			fmt.Println("service.Push err:", n.DeviceToke, err)
+			fmt.Println("service.Push err:", n.DeviceToken, err)
 		}
 		q.Responses <- Response{DeviceToken: n.DeviceToken, ID: id, Err: err}
 	}
