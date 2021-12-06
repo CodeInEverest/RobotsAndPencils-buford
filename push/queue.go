@@ -1,5 +1,9 @@
 package push
 
+import (
+	"fmt"
+)
+
 // Queue up notifications without waiting for the response.
 type Queue struct {
 	service       *Service
@@ -59,6 +63,9 @@ func (q *Queue) Close() {
 func worker(q *Queue) {
 	for n := range q.notifications {
 		id, err := q.service.Push(n.DeviceToken, n.Headers, n.Payload)
+		if err != nil {
+			fmt.Println("service.Push err:", n.DeviceToke, err)
+		}
 		q.Responses <- Response{DeviceToken: n.DeviceToken, ID: id, Err: err}
 	}
 }
