@@ -1,4 +1,4 @@
-module github.com/RobotsAndPencils/buford
+module github.com/CodeInEverest/RobotsAndPencils-buford
 
 go 1.13
 
